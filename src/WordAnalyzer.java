@@ -33,7 +33,7 @@ public class WordAnalyzer {
     private ArrayList<String> analyzeXML(NodeList XMLList) {
         ArrayList<String> analyzedStrList = new ArrayList<>();
         for(int i = 0; i < XMLList.getLength(); i++){
-            String targetStr = analyzeString(XMLList.item(i).getTextContent());
+            String targetStr = XMLList.item(i).getTextContent();
             analyzedStrList.add(analyzeString(targetStr));
         }
         return analyzedStrList;
