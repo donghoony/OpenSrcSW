@@ -20,6 +20,7 @@ public class HTMLCollector {
         Document doc = docBuilder.newDocument();
         FileHelper filehelper = new FileHelper();
         HTMLParser htmlParser = new HTMLParser();
+        XMLParser xmlParser = new XMLParser();
 
         Element docs = doc.createElement("docs");
         doc.appendChild(docs);
@@ -48,7 +49,7 @@ public class HTMLCollector {
             doc_id++;
         }
 
-        XMLParser.saveXmlAs(doc, "output/collection.xml");
+        xmlParser.saveXmlAs(doc, "output/collection.xml");
         return doc_id;
     }
 }

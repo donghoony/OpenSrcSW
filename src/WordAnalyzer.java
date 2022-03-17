@@ -20,7 +20,7 @@ public class WordAnalyzer {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(file);
-
+        XMLParser xmlParser = new XMLParser();
         KeywordExtractor ke = new KeywordExtractor();
 
         NodeList nodeList = document.getElementsByTagName("doc");
@@ -36,6 +36,6 @@ public class WordAnalyzer {
             }
             document.getElementsByTagName("doc").item(i).getChildNodes().item(1).setTextContent(data.toString());
         }
-        XMLParser.saveXmlAs(document, "output/index.xml");
+        xmlParser.saveXmlAs(document, "output/index.xml");
     }
 }

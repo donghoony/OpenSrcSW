@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 public class XMLParser {
-    public static void saveXmlAs(Document doc, String path) throws TransformerException, FileNotFoundException {
+    public void saveXmlAs(Document doc, String path) throws TransformerException, FileNotFoundException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
