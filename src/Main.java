@@ -21,7 +21,7 @@ import java.io.IOException;
 
             // index.xml
             WordAnalyzer wordAnalyzer = new WordAnalyzer(xmlParser, ke);
-            Document document = wordAnalyzer.analyzeXML("output/collection.xml");
+            Document document = wordAnalyzer.buildAnalyzedXML("output/collection.xml");
             xmlParser.saveXMLAs(document, "output/index.xml");
         }
 }

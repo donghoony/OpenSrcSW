@@ -16,7 +16,6 @@ public class HTMLCollector {
     }
 
     public Document collect(String sourceDirectory) throws IOException{
-
         File directory = new File(sourceDirectory);
         File[] contents = directory.listFiles();
 
