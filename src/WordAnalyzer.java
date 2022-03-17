@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class WordAnalyzer {
 
-    public static void analyze() throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    public void analyze() throws ParserConfigurationException, IOException, SAXException, TransformerException {
 
         File file = new File("output/collection.xml");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

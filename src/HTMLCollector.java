@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class HTMLCollector {
 
-    public static int collect() throws TransformerException, IOException, ParserConfigurationException {
+    public int collect() throws TransformerException, IOException, ParserConfigurationException {
         File directory = new File("./resource");
         File[] contents = directory.listFiles();
         //        for(File f: contents) System.out.println(f);
@@ -18,15 +18,17 @@ public class HTMLCollector {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         Document doc = docBuilder.newDocument();
+        FileHelper filehelper = new FileHelper();
+        HTMLParser htmlParser = new HTMLParser();
 
         Element docs = doc.createElement("docs");
         doc.appendChild(docs);
         int doc_id = 0;
         for(File f: contents){
-            if (FileHelper.getExtension(f.getName()).equals(".html")) continue;
+            if (filehelper.getExtension(f.getName()).equals(".html")) continue;
 
-            String docTitle = HTMLParser.getTitle(contents[doc_id]);
-            String docBody = HTMLParser.getBody(contents[doc_id]);
+            String docTitle = htmlParser.getTitle(contents[doc_id]);
+            String docBody = htmlParser.getBody(contents[doc_id]);
 
             // <doc id = $doc_id>
             Element d = doc.createElement("doc");

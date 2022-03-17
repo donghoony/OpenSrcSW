@@ -6,12 +6,12 @@ import java.io.IOException;
 
 // HTMLParser.java
 public class HTMLParser {
-    public static String getTitle(File f) throws IOException {
+    public String getTitle(File f) throws IOException {
         Document htmlDoc = Jsoup.parse(f, "UTF-8", "");
         return htmlDoc.title();
     }
 
-    public static String getBody(File f) throws IOException{
+    public String getBody(File f) throws IOException{
         Document htmlDoc = Jsoup.parse(f, "UTF-8", "");
         return htmlDoc.body().text();
     }

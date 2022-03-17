@@ -1,5 +1,5 @@
 public class FileHelper {
-    public static String getExtension(String fileName){
+    public String getExtension(String fileName){
         String extension = "";
         int i = fileName.lastIndexOf('.');
         if (i >= 0) {
