@@ -20,34 +20,45 @@ public class HTMLCollector {
         File directory = new File(sourceDirectory);
         File[] contents = directory.listFiles();
 
-        Document doc = xmlParser.loadDocument();
-        Element docs = doc.createElement("docs");
-        doc.appendChild(docs);
+        Document document = xmlParser.loadDocument();
+        Element docsElement = document.createElement("docs");
+        document.appendChild(docsElement);
 
-        int doc_id = 0;
-        for(File f: contents){
-            if (fileHelper.getExtension(f.getName()).equals(".html")) continue;
-
-            String docTitle = htmlParser.getTitle(contents[doc_id]);
-            String docBody = htmlParser.getBody(contents[doc_id]);
-
-            // <doc id = $doc_id>
-            Element d = doc.createElement("doc");
-            docs.appendChild(d);
-            d.setAttribute("id", Integer.toString(doc_id));
-
-            // title
-            Element title = doc.createElement("title");
-            title.appendChild(doc.createTextNode(docTitle));
-            d.appendChild(title);
-
-            // body
-            Element body = doc.createElement("body");
-            body.appendChild(doc.createTextNode(docBody));
-            d.appendChild(body);
-
-            doc_id++;
+        int docId = 0;
+        for(File html: contents){
+            if (fileHelper.getExtension(html.getName()).equals(".html")) continue;
+            appendElement(document, docId++, html);
         }
-        return doc;
+        return document;
+    }
+
+    private Document appendElement(Document document, int docId, File html) throws IOException {
+        String documentTitle = htmlParser.getTitle(html);
+        String documentBody = htmlParser.getBody(html);
+        Element docsElement = (Element) document.getElementsByTagName("docs").item(0);
+
+        Element d = appendChildElementWithAttribute(document, docsElement, "doc", "id", Integer.toString(docId));
+        appendChildElementWithText(document, d, "title", documentTitle);
+        appendChildElementWithText(document, d, "body", documentBody);
+
+        return document;
+    }
+
+    private Element appendChildElementWithAttribute(Document document, Element parent, String tagName, String attributeName, String attributeValue){
+        Element child = appendChildElement(document, parent, tagName);
+        child.setAttribute(attributeName, attributeValue);
+        return child;
+    }
+
+    private Element appendChildElementWithText(Document document, Element parent, String tagName, String text){
+        Element child = appendChildElement(document, parent, tagName);
+        child.appendChild(document.createTextNode(text));
+        return child;
+    }
+
+    private Element appendChildElement(Document document, Element parent, String tagName){
+        Element child = document.createElement(tagName);
+        parent.appendChild(child);
+        return child;
     }
 }
