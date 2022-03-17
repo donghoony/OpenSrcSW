@@ -1,32 +1,32 @@
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
 import java.io.File;
 import java.io.IOException;
 
 public class HTMLCollector {
+    private final XMLParser xmlParser;
+    private final FileHelper fileHelper;
+    private final HTMLParser htmlParser;
 
-    public int collect() throws TransformerException, IOException, ParserConfigurationException {
-        File directory = new File("./resource");
+    public HTMLCollector(FileHelper fileHelper, XMLParser xmlParser, HTMLParser htmlParser){
+        this.fileHelper = fileHelper;
+        this.htmlParser = htmlParser;
+        this.xmlParser = xmlParser;
+    }
+
+    public Document collect(String sourceDirectory) throws IOException{
+
+        File directory = new File(sourceDirectory);
         File[] contents = directory.listFiles();
-        //        for(File f: contents) System.out.println(f);
 
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-        Document doc = docBuilder.newDocument();
-        FileHelper filehelper = new FileHelper();
-        HTMLParser htmlParser = new HTMLParser();
-        XMLParser xmlParser = new XMLParser();
-
+        Document doc = xmlParser.loadDocument();
         Element docs = doc.createElement("docs");
         doc.appendChild(docs);
+
         int doc_id = 0;
         for(File f: contents){
-            if (filehelper.getExtension(f.getName()).equals(".html")) continue;
+            if (fileHelper.getExtension(f.getName()).equals(".html")) continue;
 
             String docTitle = htmlParser.getTitle(contents[doc_id]);
             String docBody = htmlParser.getBody(contents[doc_id]);
@@ -48,8 +48,6 @@ public class HTMLCollector {
 
             doc_id++;
         }
-
-        xmlParser.saveXmlAs(doc, "output/collection.xml");
-        return doc_id;
+        return doc;
     }
 }

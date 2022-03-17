@@ -5,37 +5,38 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import java.io.File;
 import java.io.IOException;
 
 public class WordAnalyzer {
 
-    public void analyze() throws ParserConfigurationException, IOException, SAXException, TransformerException {
+    private final XMLParser xmlParser;
+    private final KeywordExtractor ke;
 
-        File file = new File("output/collection.xml");
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(file);
-        XMLParser xmlParser = new XMLParser();
-        KeywordExtractor ke = new KeywordExtractor();
+    public WordAnalyzer(XMLParser xmlParser, KeywordExtractor ke){
+        this.xmlParser = xmlParser;
+        this.ke = ke;
+    }
 
-        NodeList nodeList = document.getElementsByTagName("doc");
-        String[] analyzedList = new String[nodeList.getLength()];
+    public String analyzeString(String str){
+        StringBuilder data = new StringBuilder();
+        KeywordList kl = ke.extractKeyword(str, true);
+        for (Keyword keyword : kl) {
+            data.append(keyword.getString()).append(":").append(keyword.getCnt()).append("#");
+        }
+        return data.toString();
+    }
+
+    public Document analyzeXML(String path) throws IOException, SAXException {
+
+        Document document = xmlParser.loadDocument(path);
+        NodeList nodeList = document.getElementsByTagName("body");
 
         for(int i = 0; i < nodeList.getLength(); i++){
-            analyzedList[i] = nodeList.item(i).getChildNodes().item(1).getTextContent();
-            KeywordList kl = ke.extractKeyword(analyzedList[i], true);
-            StringBuilder data = new StringBuilder();
-            for(int k = 0; k < kl.size(); k++){
-                Keyword keyword = kl.get(k);
-                data.append(keyword.getString()).append(":").append(keyword.getCnt()).append("#");
-            }
-            document.getElementsByTagName("doc").item(i).getChildNodes().item(1).setTextContent(data.toString());
+            String analyzedStr = analyzeString(nodeList.item(i).getTextContent());
+            document.getElementsByTagName("body").item(i).setTextContent(analyzedStr);
         }
-        xmlParser.saveXmlAs(document, "output/index.xml");
+
+        return document;
     }
 }
