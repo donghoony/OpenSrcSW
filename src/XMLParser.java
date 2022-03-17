@@ -29,6 +29,8 @@ public class XMLParser {
         DOMSource src = new DOMSource(doc);
         StreamResult res = new StreamResult(new FileOutputStream(new File(path)));
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
         transformer.transform(src, res);
     }
 
