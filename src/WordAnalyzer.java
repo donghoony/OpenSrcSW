@@ -2,9 +2,7 @@ import org.snu.ids.kkma.index.Keyword;
 import org.snu.ids.kkma.index.KeywordExtractor;
 import org.snu.ids.kkma.index.KeywordList;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -18,7 +16,7 @@ public class WordAnalyzer {
 
     public static void analyze() throws ParserConfigurationException, IOException, SAXException, TransformerException {
 
-        File file = new File("output/book.xml");
+        File file = new File("output/collection.xml");
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(file);
@@ -38,6 +36,6 @@ public class WordAnalyzer {
             }
             document.getElementsByTagName("doc").item(i).getChildNodes().item(1).setTextContent(data.toString());
         }
-        HTMLCollector.saveXmlAs(document, "output/index.xml");
+        XMLParser.saveXmlAs(document, "output/index.xml");
     }
 }

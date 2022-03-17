@@ -5,36 +5,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class HTMLCollector {
 
-    public static void saveXmlAs(Document doc, String path) throws TransformerException, FileNotFoundException {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-
-        DOMSource src = new DOMSource(doc);
-        StreamResult res = new StreamResult(new FileOutputStream(new File(path)));
-        transformer.transform(src, res);
-    }
-
-    public static String getExtension(String fileName){
-        String extension = "";
-        int i = fileName.lastIndexOf('.');
-        if (i >= 0) {
-            extension = fileName.substring(i+1);
-        }
-        return extension;
-    }
-
-    public static void collect() throws TransformerException, IOException, ParserConfigurationException {
-
+    public static int collect() throws TransformerException, IOException, ParserConfigurationException {
         File directory = new File("./resource");
         File[] contents = directory.listFiles();
         //        for(File f: contents) System.out.println(f);
@@ -47,7 +23,7 @@ public class HTMLCollector {
         doc.appendChild(docs);
         int doc_id = 0;
         for(File f: contents){
-            if (getExtension(f.getName()).equals(".html")) continue;
+            if (FileHelper.getExtension(f.getName()).equals(".html")) continue;
 
             String docTitle = HTMLParser.getTitle(contents[doc_id]);
             String docBody = HTMLParser.getBody(contents[doc_id]);
@@ -70,6 +46,7 @@ public class HTMLCollector {
             doc_id++;
         }
 
-        saveXmlAs(doc, "output/book.xml");
+        XMLParser.saveXmlAs(doc, "output/collection.xml");
+        return doc_id;
     }
 }
