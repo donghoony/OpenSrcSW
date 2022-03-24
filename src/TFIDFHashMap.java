@@ -12,7 +12,9 @@ public class TFIDFHashMap {
         this.weightHashMap = new HashMap<>();
     }
 
-    private void init(String s, int size){
+
+    private void initialize(String s, int size){
+
         if (!hashMap.containsKey(s)){
             ArrayList<Integer> arr = new ArrayList<>();
             ArrayList<Double> darr = new ArrayList<>();
@@ -47,7 +49,7 @@ public class TFIDFHashMap {
     }
 
     public void insertTF(int documentNumber, String key, int freq){
-        init(key, this.size);
+        initialize(key, this.size);
         hashMap.get(key).set(documentNumber, hashMap.get(key).get(documentNumber)+freq);
     }
 
@@ -70,7 +72,11 @@ public class TFIDFHashMap {
     }
 
     public void dump(String path) throws IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream(path);
+        File f = new File(path);
+        f.getParentFile().mkdirs();
+        f.createNewFile();
+        FileOutputStream fileOutputStream = new FileOutputStream(f);
+
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(weightHashMap);
         objectOutputStream.close();
