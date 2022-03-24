@@ -16,17 +16,15 @@ public class Main {
         switch (command) {
             case "-c" -> {
                 HTMLParser htmlParser = new HTMLParser();
-                FileHelper fileHelper = new FileHelper();
-                XMLParser xmlParser = new XMLParser(fileHelper);
+                XMLParser xmlParser = new XMLParser();
 
-                HTMLCollector htmlCollector = new HTMLCollector(fileHelper, xmlParser, htmlParser);
+                HTMLCollector htmlCollector = new HTMLCollector( xmlParser, htmlParser);
                 Document collection = htmlCollector.collect(path);
                 xmlParser.saveXMLAs(collection, "./output/collection.xml");
                 System.out.println("Saved as ./output/collection.xml");
             }
             case "-k" -> {
-                FileHelper fileHelper = new FileHelper();
-                XMLParser xmlParser = new XMLParser(fileHelper);
+                XMLParser xmlParser = new XMLParser();
                 KeywordExtractor keywordExtractor = new KeywordExtractor();
 
                 WordAnalyzer wordAnalyzer = new WordAnalyzer(xmlParser, keywordExtractor);
@@ -35,9 +33,8 @@ public class Main {
                 System.out.println("Saved as ./output/index.xml");
             }
             case "-i" -> {
-                FileHelper fileHelper = new FileHelper();
-                XMLParser xmlParser = new XMLParser(fileHelper);
-                TFIDFHashMap tfidfHashMap = new TFIDFHashMap(fileHelper);
+                XMLParser xmlParser = new XMLParser();
+                TFIDFHashMap tfidfHashMap = new TFIDFHashMap();
 
                 Indexer indexer = new Indexer(xmlParser, tfidfHashMap);
                 indexer.calculateTFIDF(path);

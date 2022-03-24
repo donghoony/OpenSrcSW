@@ -6,11 +6,9 @@ import java.io.IOException;
 
 public class HTMLCollector {
     private final XMLParser xmlParser;
-    private final FileHelper fileHelper;
     private final HTMLParser htmlParser;
 
-    public HTMLCollector(FileHelper fileHelper, XMLParser xmlParser, HTMLParser htmlParser){
-        this.fileHelper = fileHelper;
+    public HTMLCollector(XMLParser xmlParser, HTMLParser htmlParser){
         this.htmlParser = htmlParser;
         this.xmlParser = xmlParser;
     }
@@ -25,7 +23,7 @@ public class HTMLCollector {
 
         int docId = 0;
         for(File html: contents){
-            if (fileHelper.getExtension(html.getName()).equals(".html")) continue;
+            if (FileHelper.getExtension(html.getName()).equals(".html")) continue;
             appendElement(document, docId++, html);
         }
         return document;
