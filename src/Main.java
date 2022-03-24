@@ -21,6 +21,7 @@ public class Main {
             HTMLCollector htmlCollector = new HTMLCollector(fileHelper, xmlParser, htmlParser);
             Document collection = htmlCollector.collect(path);
             xmlParser.saveXMLAs(collection, "./output/collection.xml");
+            System.out.println("Saved as ./output/collection.xml");
         }
 
         else if (command.equals("-k")){
@@ -30,7 +31,9 @@ public class Main {
             WordAnalyzer wordAnalyzer = new WordAnalyzer(xmlParser, keywordExtractor);
             Document document = wordAnalyzer.buildAnalyzedXML(path);
             xmlParser.saveXMLAs(document, "./output/index.xml");
+            System.out.println("Saved as ./output/index.xml");
         }
+
         else if (command.equals("-i")){
             XMLParser xmlParser = new XMLParser();
             TFIDFHashMap tfidfHashMap = new TFIDFHashMap();
@@ -39,7 +42,9 @@ public class Main {
             indexer.calculateTFIDF(path);
             indexer.saveAs("./output/index.post");
             indexer.readDumpedHashMap("./output/index.post");
+            System.out.println("Saved as ./output/index.post");
         }
+
         else{
             System.err.println("Invalid arguments or options.");
         }
