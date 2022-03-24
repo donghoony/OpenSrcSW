@@ -1,7 +1,7 @@
 # open-source-sw
 건국대학교 2022학년도 1학기: 오픈소스SW입문
 
-###File structure
+### File structure
 ```
 output: 실행결과가 저장되는 곳입니다.
 resource: 실행에 필요한 html파일이 저장됩니다.
@@ -23,7 +23,8 @@ TFIDFHashMap.java: TF-IDF 해시맵 과제에 사용되는 클래스입니다. �
 Indexer.java: TF-IDF 과제 수행에 사용되는 클래스입니다.
 ```
 
-###Run command
+### Run command
+우측 Release에 빌드된 jar파일이 첨부돼 있습니다.
 ```
 java -jar kuir.jar -c <TARGET_DIRECTORY> // ./output/collection.xml이 생성됩니다
 java -jar kuir.jar -k <COLLECTION_FILE> // ./output/index.xml이 생성됩니다
