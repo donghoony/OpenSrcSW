@@ -42,6 +42,7 @@ public class Main {
                 indexer.calculateTFIDF(path);
                 indexer.saveAs("./output/index.post");
                 indexer.readDumpedHashMap("./output/index.post");
+                System.out.println("Saved as ./output/index.post");
             }
             default -> System.err.println("Invalid arguments or options.");
         }
