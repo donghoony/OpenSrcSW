@@ -25,5 +25,7 @@ Indexer.java: TF-IDF 과제 수행에 사용되는 클래스입니다.
 
 ###Run command
 ```
-java -jar kuir.jar -c "PATH"
+java -jar kuir.jar -c <TARGET_DIRECTORY> // ./output/collection.xml이 생성됩니다
+java -jar kuir.jar -k <COLLECTION_FILE> // ./output/index.xml이 생성됩니다
+java -jar kuir.jar -i <INDEX_FILE> // ./output/index.post가 생성됩니다
 ```
