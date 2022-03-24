@@ -12,7 +12,9 @@ public class TFIDFHashMap {
         this.weightHashMap = new HashMap<>();
     }
 
+
     private void initialize(String s, int size){
+
         if (!hashMap.containsKey(s)){
             ArrayList<Integer> arr = new ArrayList<>();
             ArrayList<Double> darr = new ArrayList<>();
@@ -74,6 +76,7 @@ public class TFIDFHashMap {
         f.getParentFile().mkdirs();
         f.createNewFile();
         FileOutputStream fileOutputStream = new FileOutputStream(f);
+
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(weightHashMap);
         objectOutputStream.close();
