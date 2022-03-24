@@ -8,22 +8,37 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Main {
-    public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException, SAXException {
-        XMLParser xmlParser = new XMLParser();
-        KeywordExtractor keywordExtractor = new KeywordExtractor();
+    public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException, SAXException, ClassNotFoundException {
 
-        if (Objects.equals(args[0], "-c") && args.length == 3){
+        String command = args[0];
+        String path = args[1];
+
+        if (command.equals("-c")){
+            XMLParser xmlParser = new XMLParser();
             HTMLParser htmlParser = new HTMLParser();
             FileHelper fileHelper = new FileHelper();
+
             HTMLCollector htmlCollector = new HTMLCollector(fileHelper, xmlParser, htmlParser);
-            Document collection = htmlCollector.collect(args[1]);
-            xmlParser.saveXMLAs(collection, args[2]);
+            Document collection = htmlCollector.collect(path);
+            xmlParser.saveXMLAs(collection, "./output/collection.xml");
         }
 
-        else if (Objects.equals(args[0], "-k") && args.length == 3){
+        else if (command.equals("-k")){
+            XMLParser xmlParser = new XMLParser();
+            KeywordExtractor keywordExtractor = new KeywordExtractor();
+
             WordAnalyzer wordAnalyzer = new WordAnalyzer(xmlParser, keywordExtractor);
-            Document document = wordAnalyzer.buildAnalyzedXML(args[1]);
-            xmlParser.saveXMLAs(document, args[2]);
+            Document document = wordAnalyzer.buildAnalyzedXML(path);
+            xmlParser.saveXMLAs(document, "./output/index.xml");
+        }
+        else if (command.equals("-i")){
+            XMLParser xmlParser = new XMLParser();
+            TFIDFHashMap tfidfHashMap = new TFIDFHashMap();
+
+            Indexer indexer = new Indexer(xmlParser, tfidfHashMap);
+            indexer.calculateTFIDF(path);
+            indexer.saveAs("./output/index.post");
+            indexer.readDumpedHashMap("./output/index.post");
         }
         else{
             System.err.println("Invalid arguments or options.");
