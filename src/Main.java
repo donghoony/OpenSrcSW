@@ -5,7 +5,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import java.io.IOException;
-import java.util.Objects;
 
 public class Main {
 
@@ -16,9 +15,9 @@ public class Main {
 
         switch (command) {
             case "-c" -> {
-                XMLParser xmlParser = new XMLParser();
                 HTMLParser htmlParser = new HTMLParser();
                 FileHelper fileHelper = new FileHelper();
+                XMLParser xmlParser = new XMLParser(fileHelper);
 
                 HTMLCollector htmlCollector = new HTMLCollector(fileHelper, xmlParser, htmlParser);
                 Document collection = htmlCollector.collect(path);
@@ -26,7 +25,8 @@ public class Main {
                 System.out.println("Saved as ./output/collection.xml");
             }
             case "-k" -> {
-                XMLParser xmlParser = new XMLParser();
+                FileHelper fileHelper = new FileHelper();
+                XMLParser xmlParser = new XMLParser(fileHelper);
                 KeywordExtractor keywordExtractor = new KeywordExtractor();
 
                 WordAnalyzer wordAnalyzer = new WordAnalyzer(xmlParser, keywordExtractor);
@@ -35,8 +35,9 @@ public class Main {
                 System.out.println("Saved as ./output/index.xml");
             }
             case "-i" -> {
-                XMLParser xmlParser = new XMLParser();
-                TFIDFHashMap tfidfHashMap = new TFIDFHashMap();
+                FileHelper fileHelper = new FileHelper();
+                XMLParser xmlParser = new XMLParser(fileHelper);
+                TFIDFHashMap tfidfHashMap = new TFIDFHashMap(fileHelper);
 
                 Indexer indexer = new Indexer(xmlParser, tfidfHashMap);
                 indexer.calculateTFIDF(path);

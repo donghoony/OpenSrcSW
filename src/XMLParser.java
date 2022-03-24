@@ -15,20 +15,20 @@ import java.io.IOException;
 public class XMLParser {
     private final Transformer transformer;
     private final DocumentBuilder documentBuilder;
+    private final FileHelper fileHelper;
 
-    public XMLParser() throws TransformerConfigurationException, ParserConfigurationException {
+    public XMLParser(FileHelper fileHelper) throws TransformerConfigurationException, ParserConfigurationException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         transformer = transformerFactory.newTransformer();
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        this.fileHelper = fileHelper;
     }
 
     public void saveXMLAs(Document doc, String path) throws TransformerException, IOException {
         DOMSource src = new DOMSource(doc);
 
-        File f = new File(path);
-        f.getParentFile().mkdirs();
-        f.createNewFile();
+        File f = fileHelper.getFile(path);
         StreamResult res = new StreamResult(new FileOutputStream(f));
 
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
