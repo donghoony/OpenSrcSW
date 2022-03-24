@@ -6,10 +6,8 @@ public class TFIDFHashMap {
     private final HashMap<String, ArrayList<Integer>> hashMap;
     private final HashMap<String, ArrayList<Double>> weightHashMap;
     private int size;
-    private final FileHelper fileHelper;
 
-    public TFIDFHashMap(FileHelper fileHelper){
-        this.fileHelper = fileHelper;
+    public TFIDFHashMap(){
         this.hashMap = new HashMap<>();
         this.weightHashMap = new HashMap<>();
     }
@@ -74,7 +72,7 @@ public class TFIDFHashMap {
     }
 
     public void dump(String path) throws IOException {
-        File f = fileHelper.getFile(path);
+        File f = FileHelper.getFile(path);
         FileOutputStream fileOutputStream = new FileOutputStream(f);
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
