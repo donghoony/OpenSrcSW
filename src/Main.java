@@ -8,25 +8,42 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Main {
-    public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException, SAXException {
-        XMLParser xmlParser = new XMLParser();
-        KeywordExtractor keywordExtractor = new KeywordExtractor();
 
-        if (Objects.equals(args[0], "-c") && args.length == 3){
-            HTMLParser htmlParser = new HTMLParser();
-            FileHelper fileHelper = new FileHelper();
-            HTMLCollector htmlCollector = new HTMLCollector(fileHelper, xmlParser, htmlParser);
-            Document collection = htmlCollector.collect(args[1]);
-            xmlParser.saveXMLAs(collection, args[2]);
-        }
+    public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException, SAXException, ClassNotFoundException {
 
-        else if (Objects.equals(args[0], "-k") && args.length == 3){
-            WordAnalyzer wordAnalyzer = new WordAnalyzer(xmlParser, keywordExtractor);
-            Document document = wordAnalyzer.buildAnalyzedXML(args[1]);
-            xmlParser.saveXMLAs(document, args[2]);
-        }
-        else{
-            System.err.println("Invalid arguments or options.");
+        String command = args[0];
+        String path = args[1];
+
+        switch (command) {
+            case "-c" -> {
+                XMLParser xmlParser = new XMLParser();
+                HTMLParser htmlParser = new HTMLParser();
+                FileHelper fileHelper = new FileHelper();
+
+                HTMLCollector htmlCollector = new HTMLCollector(fileHelper, xmlParser, htmlParser);
+                Document collection = htmlCollector.collect(path);
+                xmlParser.saveXMLAs(collection, "./output/collection.xml");
+                System.out.println("Saved as ./output/collection.xml");
+            }
+            case "-k" -> {
+                XMLParser xmlParser = new XMLParser();
+                KeywordExtractor keywordExtractor = new KeywordExtractor();
+
+                WordAnalyzer wordAnalyzer = new WordAnalyzer(xmlParser, keywordExtractor);
+                Document document = wordAnalyzer.buildAnalyzedXML(path);
+                xmlParser.saveXMLAs(document, "./output/index.xml");
+                System.out.println("Saved as ./output/index.xml");
+            }
+            case "-i" -> {
+                XMLParser xmlParser = new XMLParser();
+                TFIDFHashMap tfidfHashMap = new TFIDFHashMap();
+
+                Indexer indexer = new Indexer(xmlParser, tfidfHashMap);
+                indexer.calculateTFIDF(path);
+                indexer.saveAs("./output/index.post");
+                indexer.readDumpedHashMap("./output/index.post");
+            }
+            default -> System.err.println("Invalid arguments or options.");
         }
     }
 }
