@@ -20,8 +20,8 @@ public class Main {
 
                 HTMLCollector htmlCollector = new HTMLCollector( xmlParser, htmlParser);
                 Document collection = htmlCollector.collect(path);
-                xmlParser.saveXMLAs(collection, "./output/collection.xml");
-                System.out.println("Saved as ./output/collection.xml");
+                xmlParser.saveXMLAs(collection, "./collection.xml");
+                System.out.println("Saved as ./collection.xml");
             }
             case "-k" -> {
                 XMLParser xmlParser = new XMLParser();
@@ -29,8 +29,8 @@ public class Main {
 
                 WordAnalyzer wordAnalyzer = new WordAnalyzer(xmlParser, keywordExtractor);
                 Document document = wordAnalyzer.buildAnalyzedXML(path);
-                xmlParser.saveXMLAs(document, "./output/index.xml");
-                System.out.println("Saved as ./output/index.xml");
+                xmlParser.saveXMLAs(document, "./index.xml");
+                System.out.println("Saved as ./index.xml");
             }
             case "-i" -> {
                 XMLParser xmlParser = new XMLParser();
@@ -38,9 +38,9 @@ public class Main {
 
                 Indexer indexer = new Indexer(xmlParser, tfidfHashMap);
                 indexer.calculateTFIDF(path);
-                indexer.saveAs("./output/index.post");
-                indexer.readDumpedHashMap("./output/index.post");
-                System.out.println("Saved as ./output/index.post");
+                indexer.saveAs("./index.post");
+                indexer.readDumpedHashMap("./index.post");
+                System.out.println("Saved as ./index.post");
             }
             default -> System.err.println("Invalid arguments or options.");
         }
