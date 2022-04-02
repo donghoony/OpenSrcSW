@@ -12,15 +12,17 @@ src ┌ kuir.java
     ├ WordAnalyzer.java
     ├ FileHelper.java
     ├ TFIDFHashMap.java
-    └ Indexer.java
+    ├ Indexer.java
+    └ Searcher.java
 
 HTMLParser.java: HTML 파일을 Jsoup 라이브러리를 통해 파싱합니다.
 HTMLCollector.java: collection.xml을 만들기 위한 클래스입니다.
 XMLParser.java: xml 파일 저장 및 불러오기 기능을 구현한 클래스입니다.
 WordAnalyzer.java: 형태소분석에 활용되는 클래스입니다.
-FileHelper.java: 파일 관련 클래스입니다. 현재는 파일의 확장자를 가져오는 메서드가 있습니다.
+FileHelper.java: 파일 관련 클래스입니다.
 TFIDFHashMap.java: TF-IDF 해시맵 과제에 사용되는 클래스입니다. 해시맵 연산 관련 클래스입니다.
 Indexer.java: TF-IDF 과제 수행에 사용되는 클래스입니다.
+Searcher.java: 문서 유사도 과제 수행에 사용되는 클래스입니다.
 ```
 
 ### Run command
@@ -29,4 +31,5 @@ Indexer.java: TF-IDF 과제 수행에 사용되는 클래스입니다.
 java -jar kuir.jar -c <TARGET_DIRECTORY> // ./collection.xml이 생성됩니다
 java -jar kuir.jar -k <COLLECTION_FILE> // ./index.xml이 생성됩니다
 java -jar kuir.jar -i <INDEX_FILE> // ./index.post가 생성됩니다
+java -jar kuir.jar -s <INDEX.POST_FILE> -q <query> // 쿼리문에 따른 문서 유사도를 출력합니다
 ```
