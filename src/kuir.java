@@ -56,6 +56,7 @@ public class kuir {
 
                 Document document = xmlParser.loadDocument("./index.xml");
                 List<Map.Entry<Integer, Double>> similarity = searcher.CalcSim(path, query);
+                if(similarity.isEmpty()) System.out.println("검색된 문서가 없습니다.");
                 for(Map.Entry<Integer, Double> entry: similarity){
                     System.out.println(document.getElementsByTagName("title").item(entry.getKey()).getTextContent() + " " + entry.getValue());
                 }
