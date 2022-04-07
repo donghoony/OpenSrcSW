@@ -29,7 +29,6 @@ public class Searcher {
 
         ArrayList<Integer> documentIdList = getDocumentIndices(index, analyzedQuery);
         HashMap<Integer, Double> similarityHashMap = calculateInnerProduct(index, analyzedQuery, documentIdList);
-
         return getTopSimilarityDocumentIdList(similarityHashMap, 3);
     }
 
