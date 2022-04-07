@@ -84,12 +84,5 @@ public class TFIDFHashMap {
 
         return (HashMap<String, ArrayList<Double>>) obj;
 
-//        for (String key : (Iterable<String>) h.keySet()) {
-//            System.out.printf("%s : ", key);
-//            for (int i = 0; i < size; i++) {
-//                System.out.printf("%.2f ", getWeight(i, key));
-//            }
-//            System.out.println();
-//        }
     }
 }

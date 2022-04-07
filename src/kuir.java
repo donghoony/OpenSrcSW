@@ -42,7 +42,7 @@ public class kuir {
                 Indexer indexer = new Indexer(xmlParser, tfidfHashMap);
                 indexer.calculateTFIDF(path);
                 indexer.saveAs("./index.post");
-//                indexer.readDumpedHashMap("./index.post");
+
                 System.out.println("Saved as ./index.post");
             }
             case "-s" -> {
@@ -50,7 +50,8 @@ public class kuir {
                 KeywordExtractor keywordExtractor = new KeywordExtractor();
                 XMLParser xmlParser = new XMLParser();
                 WordAnalyzer wordAnalyzer = new WordAnalyzer(xmlParser, keywordExtractor);
-                Searcher searcher = new Searcher(tfidfHashMap, wordAnalyzer, xmlParser);
+                Searcher searcher = new Searcher(tfidfHashMap, wordAnalyzer);
+
                 String option = args[2];
                 String query = args[3];
 
