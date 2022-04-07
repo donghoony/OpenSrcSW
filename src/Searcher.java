@@ -26,7 +26,7 @@ public class Searcher {
         KeywordList analyzedQuery = wordAnalyzer.analyzeStringToKeywords(query);
 
         ArrayList<Integer> documentIdList = getDocumentIndices(index, analyzedQuery);
-        HashMap<Integer, Double> similarityHashMap = calculateCosineSimilarity(index, analyzedQuery, documentIdList);
+        HashMap<Integer, Double> similarityHashMap = calculateInnerProduct(index, analyzedQuery, documentIdList);
 
 
         return getTopSimilarityDocumentIdList(similarityHashMap, 3);
