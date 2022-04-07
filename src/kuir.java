@@ -49,8 +49,8 @@ public class kuir {
                 KeywordExtractor keywordExtractor = new KeywordExtractor();
                 XMLParser xmlParser = new XMLParser();
                 WordAnalyzer wordAnalyzer = new WordAnalyzer(xmlParser, keywordExtractor);
-
                 Searcher searcher = new Searcher(tfidfHashMap, wordAnalyzer);
+
                 String option = args[2];
                 String query = args[3];
 
