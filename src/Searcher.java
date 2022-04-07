@@ -1,21 +1,19 @@
 import org.snu.ids.kkma.index.Keyword;
 import org.snu.ids.kkma.index.KeywordList;
-import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-
-import java.util.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 import java.util.Map.Entry;
 
 public class Searcher {
-
-    // get Weight TF from query, inner product with weight
-    //
     private final TFIDFHashMap tfidfHashMap;
     private final WordAnalyzer wordAnalyzer;
 
-    public Searcher(TFIDFHashMap tfidfHashMap, WordAnalyzer wordAnalyzer, XMLParser xmlParser){
+    public Searcher(TFIDFHashMap tfidfHashMap, WordAnalyzer wordAnalyzer){
         this.tfidfHashMap = tfidfHashMap;
         this.wordAnalyzer = wordAnalyzer;
     }
@@ -28,7 +26,8 @@ public class Searcher {
         KeywordList analyzedQuery = wordAnalyzer.analyzeStringToKeywords(query);
 
         ArrayList<Integer> documentIdList = getDocumentIndices(index, analyzedQuery);
-        HashMap<Integer, Double> similarityHashMap = calculateInnerProduct(index, analyzedQuery, documentIdList);
+        HashMap<Integer, Double> similarityHashMap = calculateCosineSimilarity(index, analyzedQuery, documentIdList);
+
 
         return getTopSimilarityDocumentIdList(similarityHashMap, 3);
     }
@@ -50,6 +49,24 @@ public class Searcher {
         return entryList;
     }
 
+    private HashMap<Integer, Double> calculateCosineSimilarity(HashMap<String, ArrayList<Double>> index, KeywordList analyzedQuery, ArrayList<Integer> documentIdList){
+        HashMap<Integer, Double> similarity = new HashMap<>();
+        HashMap<Integer, Double> innerProduct = calculateInnerProduct(index, analyzedQuery, documentIdList);
+
+        for (int documentId: documentIdList){
+            double query_square = 0d;
+            double index_square = 0d;
+            for(Keyword keyword : analyzedQuery){
+                String word = keyword.getString();
+                if(!index.containsKey(word)) continue;
+                query_square += Math.pow(keyword.getCnt(), 2);
+                index_square += Math.pow(index.get(keyword.getString()).get(documentId), 2);
+            }
+            if(index_square > 0 && query_square > 0)
+                similarity.put(documentId, innerProduct.get(documentId) / (Math.sqrt(query_square) * Math.sqrt(index_square)));
+        }
+        return similarity;
+    }
 
     private HashMap<Integer, Double> calculateInnerProduct(HashMap<String, ArrayList<Double>> index, KeywordList analyzedQuery, ArrayList<Integer> documentIdList){
         // <documentId, similarity>
@@ -66,7 +83,6 @@ public class Searcher {
         return similarity;
     }
 
-
     public ArrayList<Integer> getDocumentIndices(HashMap<String, ArrayList<Double>> index, KeywordList analyzedQuery) {
         ArrayList<Boolean> containKeywordList = new ArrayList<>();
         ArrayList<Integer> containDocumentIdList = new ArrayList<>();
@@ -80,11 +96,10 @@ public class Searcher {
                 if (weightArray.get(documentId) > 0) containKeywordList.set(documentId, Boolean.TRUE);
             }
         }
-
         for(int i = 0; i < containKeywordList.size(); i++){
             if (containKeywordList.get(i)) containDocumentIdList.add(i);
         }
-
         return containDocumentIdList;
     }
+
 }
