@@ -41,9 +41,6 @@ public class TFIDFHashMap {
         return ret;
     }
 
-    public int getSize(){
-        return size;
-    }
     public void setSize(int size){
         this.size = size;
     }
@@ -78,5 +75,15 @@ public class TFIDFHashMap {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(weightHashMap);
         objectOutputStream.close();
+    }
+
+    public HashMap<String, ArrayList<Double>> readDumpedHashMap(String path) throws IOException, ClassNotFoundException {
+        FileInputStream fileInputStream = new FileInputStream(path);
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+
+        Object obj = objectInputStream.readObject();
+        objectInputStream.close();
+
+        return (HashMap<String, ArrayList<Double>>) obj;
     }
 }

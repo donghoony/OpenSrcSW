@@ -33,18 +33,21 @@ public class WordAnalyzer {
         ArrayList<String> analyzedStrList = new ArrayList<>();
         for(int i = 0; i < XMLList.getLength(); i++){
             String targetStr = XMLList.item(i).getTextContent();
-            analyzedStrList.add(analyzeString(targetStr));
+            analyzedStrList.add(
+                    analyzeKeywords(analyzeStringToKeywords(targetStr)));
         }
         return analyzedStrList;
     }
 
-    private String analyzeString(String str){
+    private String analyzeKeywords(KeywordList keywords){
         StringBuilder data = new StringBuilder();
-        KeywordList keywords = keywordExtractor.extractKeyword(str, true);
         for (Keyword keyword : keywords) {
             data.append(keyword.getString()).append(":").append(keyword.getCnt()).append("#");
         }
         return data.toString();
     }
 
+    public KeywordList analyzeStringToKeywords(String str){
+        return keywordExtractor.extractKeyword(str, true);
+    }
 }
