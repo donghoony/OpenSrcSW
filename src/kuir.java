@@ -42,6 +42,7 @@ public class kuir {
                 Indexer indexer = new Indexer(xmlParser, tfidfHashMap);
                 indexer.calculateTFIDF(path);
                 indexer.saveAs("./index.post");
+
                 System.out.println("Saved as ./index.post");
             }
             case "-s" -> {

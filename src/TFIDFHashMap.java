@@ -83,5 +83,6 @@ public class TFIDFHashMap {
         objectInputStream.close();
 
         return (HashMap<String, ArrayList<Double>>) obj;
+
     }
 }

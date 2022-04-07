@@ -46,6 +46,7 @@ public class Searcher {
         return entryList;
     }
 
+
     private HashMap<Integer, Double> calculateCosineSimilarity(HashMap<String, ArrayList<Double>> index, KeywordList analyzedQuery, ArrayList<Integer> documentIdList){
         HashMap<Integer, Double> similarity = new HashMap<>();
         HashMap<Integer, Double> innerProduct = calculateInnerProduct(index, analyzedQuery, documentIdList);
@@ -93,6 +94,7 @@ public class Searcher {
                 if (weightArray.get(documentId) > 0) containKeywordList.set(documentId, Boolean.TRUE);
             }
         }
+
         for(int i = 0; i < containKeywordList.size(); i++){
             if (containKeywordList.get(i)) containDocumentIdList.add(i);
         }
