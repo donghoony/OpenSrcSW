@@ -46,21 +46,4 @@ public class Indexer {
     public void saveAs(String path) throws IOException {
         tfidfHashMap.dump(path);
     }
-
-    public void readDumpedHashMap(String path) throws IOException, ClassNotFoundException {
-        FileInputStream fileInputStream = new FileInputStream(path);
-        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-
-        Object obj = objectInputStream.readObject();
-        objectInputStream.close();
-
-        HashMap h = (HashMap) obj;
-        for (String key : (Iterable<String>) h.keySet()) {
-            System.out.printf("%s : ", key);
-            for (int i = 0; i < tfidfHashMap.getSize(); i++) {
-                System.out.printf("%.2f ", tfidfHashMap.getWeight(i, key));
-            }
-            System.out.println();
-        }
-    }
 }
