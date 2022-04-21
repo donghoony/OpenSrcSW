@@ -62,6 +62,17 @@ public class kuir {
                     System.out.println(document.getElementsByTagName("title").item(entry.getKey()).getTextContent() + " " + String.format("%.5f",entry.getValue()));
                 }
             }
+            case "-m" -> {
+                XMLParser xmlParser = new XMLParser();
+                KeywordExtractor keywordExtractor = new KeywordExtractor();
+                WordAnalyzer wordAnalyzer = new WordAnalyzer(xmlParser, keywordExtractor);
+
+                String targetPath = args[1];
+                String opt = args[2];
+                String query = args[3];
+                MidTerm mt = new MidTerm(xmlParser, wordAnalyzer);
+                mt.showSnippet(targetPath, query);
+            }
             default -> System.err.println("Invalid arguments or options.");
         }
     }
