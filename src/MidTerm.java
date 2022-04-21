@@ -64,7 +64,11 @@ public class MidTerm {
 
             for(Keyword key : keywords) {
                 // Keyword는 String 클래스가 아님. getString으로 단어만 가져옴
-                if (tmp.contains(key.getString())) cnt++;
+                // 30짜리 substr에 대해서 모든 키워드의 개수를 센다
+                for(int rr = key.getString().length(); rr <= 30; rr++){
+                    String sub = tmp.substring(rr-key.getString().length(), rr);
+                    if (sub.equals(key.getString())) cnt++;
+                }
             }
 
             if (cnt > maxi){
